@@ -11,7 +11,6 @@ def home(request, *args, **kwargs):
         'page_visits': page_qs.count(),
         'total_visits_count': qs.count(),
     }
-    path = request.path
     PageVisits.objects.create()
     return render(request, 'home.html', vars)
 
