@@ -24,10 +24,10 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = str(os.environ.get('DJANGO_DEBUG')).lower == 'true'
-DEBUG = config("DJANGO_DEBUG", cast=bool)
+DEBUG = True #config("DJANGO_DEBUG", cast=bool)
 
 ALLOWED_HOSTS = [
-    ".railway.app" # https://saas.prod.railway.app
+    ".railway.app", # https://saas.prod.railway.app
 ]
 if DEBUG:
     ALLOWED_HOSTS += [
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #MyApps
-    
+    'commando',
     'visits',
 ]
 
@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-CONN_MAX_AGE = config('CONN_MAX_AGE', cast=int, default=30)
+CONN_MAX_AGE = config('CONN_MAX_AGE', cast=int, default=300)
 DATABASE_URL = config('DATABASE_URL', cast=str)
 
 if DATABASE_URL is not None:
@@ -128,8 +128,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_BASE_DIRS = BASE_DIR / 'staticfiles' 
+STATICFILES_BASE_DIRS.mkdir(exist_ok=True, parents=True)
+STATICFILES_VENDOR_DIRS = STATICFILES_BASE_DIRS / 'vendors'
 
+STATICFILES_DIRS = [
+    STATICFILES_BASE_DIRS 
+    ]
+STATIC_ROOT = BASE_DIR / 'local-cdn'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
